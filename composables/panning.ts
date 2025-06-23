@@ -63,6 +63,37 @@ function updateZooming(e:WheelEvent){
   viewportTransform.scale = newScale;
 }
 
+let previousX = 0, previousY = 0;
+
+const updatePanning = (e:MouseEvent) => {
+  const localX = e.clientX;
+  const localY = e.clientY;
+
+  viewportTransform.x += localX - previousX;
+  viewportTransform.y += localY - previousY;
+
+  previousX = localX;
+  previousY = localY;
+}
+
+const onMouseMove = (e:MouseEvent) => {
+  updatePanning(e)
+  render()
+
+  console.log(e.clientX,e.clientY)
+}
+
+canvas.addEventListener("mousedown", (e) => {
+  previousX = e.clientX;
+  previousY = e.clientY;
+
+  canvas.addEventListener("mousemove", onMouseMove);
+})
+
+canvas.addEventListener("mouseup", (e) => {
+  canvas.removeEventListener("mousemove", onMouseMove);
+})
+
 function mouseWheel(e:WheelEvent){
   updateZooming(e);
   render()
