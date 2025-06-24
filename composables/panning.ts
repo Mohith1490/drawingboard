@@ -1,5 +1,5 @@
 import rough from 'roughjs'
-import shapes from './drawingShapes';
+import HandlingMouseEvent from './drawingShapes';
 
 
 export default function canvasPanning(canvas: HTMLCanvasElement){
@@ -19,7 +19,7 @@ const render = () => {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.setTransform(viewportTransform.scale, 0, 0, viewportTransform.scale, viewportTransform.x, viewportTransform.y);
-  shapes(canvas)
+  HandlingMouseEvent(canvas)
 }
 render()
 function updateZooming(e:WheelEvent){
@@ -56,25 +56,25 @@ const updatePanning = (e:MouseEvent) => {
   previousY = localY;
 }
 
-const onMouseMove = (e:MouseEvent) => {
-  updatePanning(e)
-  render()
-}
+// const onMouseMove = (e:MouseEvent) => {
+//   updatePanning(e)
+//   render()
+// }
 
-canvas.addEventListener("mousedown", (e) => {
-  previousX = e.clientX;
-  previousY = e.clientY;
+// canvas.addEventListener("mousedown", (e) => {
+//   previousX = e.clientX;
+//   previousY = e.clientY;
 
-  canvas.addEventListener("mousemove", onMouseMove);
-})
+//   canvas.addEventListener("mousemove", onMouseMove);
+// })
 
-canvas.addEventListener("mouseup", (e) => {
-  canvas.removeEventListener("mousemove", onMouseMove);
-})
+// canvas.addEventListener("mouseup", (e) => {
+//   canvas.removeEventListener("mousemove", onMouseMove);
+// })
 
-function mouseWheel(e:WheelEvent){
-  updateZooming(e);
-  render()
-}
-canvas.addEventListener("wheel",mouseWheel)
+// function mouseWheel(e:WheelEvent){
+//   updateZooming(e);
+//   render()
+// }
+// canvas.addEventListener("wheel",mouseWheel)
 }
