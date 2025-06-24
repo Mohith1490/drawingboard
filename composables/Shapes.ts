@@ -8,14 +8,28 @@ export default class Shapes {
         this.ctx = canvas.getContext("2d")!
     }
 
-    SelectedShape(name:string,event:MouseEvent,startX:number,startY:number){
+    SelectShape(name:String,event:MouseEvent,startX:number,startY:number){
         switch (name) {
-            case "rectangle":
+            case "square":
                 this.drawRect(event,startX,startY)
                 break;
             case "circle":
-
+                this.drawCircle(event,startX,startY);
+                break;
+            case "line":
+                this.drawLine(event,startX,startY);
+                break;
+            case "arrow":
+                this.drawArrow(event,startX,startY);
+                break;
+            case "text":
+                this.writeText(event,startX,startY);
+                break;
+            case "eraser":
+                this.Eraser(event);
+                break;
             default:
+                this.drawPencil(event,startX,startY);
                 break;
         }
     }
@@ -41,8 +55,17 @@ export default class Shapes {
          return this.rc.line(startX,startY,toX,toY)
     }
 
-    drawPencil(event:MouseEvent){
-        this.ctx.strokeStyle = "balck"
+    drawPencil(event:MouseEvent,startX:number,startY:number){
+        this.ctx.strokeStyle = "black"
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath()
+        // this.ctx.moveTo(startX,startY)
+        this.ctx.lineTo(event.offsetX,event.offsetY)
+        this.ctx.stroke()
+    }
+
+    Eraser(event:MouseEvent){
+        this.ctx.strokeStyle = "#fff"
         this.ctx.lineWidth = 3;
         this.ctx.lineTo(event.offsetX,event.offsetY)
         this.ctx.stroke()
@@ -69,5 +92,13 @@ export default class Shapes {
     ];
     // Draw arrowhead
     this.rc.polygon(arrowHead, { fill: 'black' });
+    }
+
+    writeText(event:MouseEvent,startX:number,startY:number){
+       const toX = event.clientX;
+       const toY = event.clientY; 
+       const distance = Math.sqrt((toX-startX)**2 + (toY-startY)**2)
+       this.ctx.font = "100px"
+       this.ctx.fillText("hello",startX,startY,110);
     }
 }

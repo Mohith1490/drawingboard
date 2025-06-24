@@ -1,6 +1,5 @@
-import rough from 'roughjs'
-import HandlingMouseEvent from './drawingShapes';
-
+import Shapes from './Shapes';
+import { selectedtool } from '@/components/toolbar';
 
 export default function canvasPanning(canvas: HTMLCanvasElement){
 const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D; 
@@ -19,7 +18,7 @@ const render = () => {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.setTransform(viewportTransform.scale, 0, 0, viewportTransform.scale, viewportTransform.x, viewportTransform.y);
-  HandlingMouseEvent(canvas)
+  HandlingTools(canvas)
 }
 render()
 function updateZooming(e:WheelEvent){
@@ -77,4 +76,32 @@ const updatePanning = (e:MouseEvent) => {
 //   render()
 // }
 // canvas.addEventListener("wheel",mouseWheel)
+}
+
+
+
+function HandlingTools(canvas:HTMLCanvasElement){
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  const shapes = new Shapes(canvas);
+  let startx =0;
+  let starty =0;
+  let snapshot: ImageData;
+  let frames:ImageData[] = [];
+  function drawing(){
+    snapshot = ctx.getImageData(0,0,canvas.width,canvas.height);       
+  }
+  function drawShape(e:MouseEvent){
+      ctx.putImageData(snapshot,0,0)
+      shapes.SelectShape(selectedtool,e,startx,starty)
+  }
+    canvas.addEventListener("mousedown",(e:MouseEvent)=>{
+       startx = e.clientX;
+       starty = e.clientY;
+       drawing()
+       canvas.addEventListener("mousemove",drawShape)
+    })
+    canvas.addEventListener("mouseup",()=>{
+        frames.push(snapshot);       
+        canvas.removeEventListener("mousemove",drawShape)
+    })
 }
