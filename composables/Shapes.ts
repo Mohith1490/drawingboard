@@ -29,7 +29,7 @@ export default class Shapes {
                 this.Eraser(event);
                 break;
             default:
-                this.drawPencil(event,startX,startY);
+                this.drawPencil(event);
                 break;
         }
     }
@@ -55,18 +55,17 @@ export default class Shapes {
          return this.rc.line(startX,startY,toX,toY)
     }
 
-    drawPencil(event:MouseEvent,startX:number,startY:number){
+    drawPencil(event:MouseEvent){
         this.ctx.strokeStyle = "black"
         this.ctx.lineWidth = 3;
-        this.ctx.beginPath()
-        // this.ctx.moveTo(startX,startY)
         this.ctx.lineTo(event.offsetX,event.offsetY)
         this.ctx.stroke()
     }
 
     Eraser(event:MouseEvent){
         this.ctx.strokeStyle = "#fff"
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = 10;
+
         this.ctx.lineTo(event.offsetX,event.offsetY)
         this.ctx.stroke()
     }
@@ -81,16 +80,15 @@ export default class Shapes {
 
     // Arrowhead size
     const headLength = 25;
-    const angle1 = angle - Math.PI / 6; // 30 degrees
+    const angle1 = angle - Math.PI / 6; 
     const angle2 = angle + Math.PI / 6;
 
-    // Calculate points for arrowhead triangle
     const arrowHead = [
         [toX - headLength * Math.cos(angle1), toY - headLength * Math.sin(angle1)],
         [toX, toY],
         [toX - headLength * Math.cos(angle2), toY - headLength * Math.sin(angle2)]
     ];
-    // Draw arrowhead
+
     this.rc.polygon(arrowHead, { fill: 'black' });
     }
 

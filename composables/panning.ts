@@ -6,6 +6,7 @@ const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+
 const viewportTransform = {
   x:0,
   y:0,
@@ -88,7 +89,8 @@ function HandlingTools(canvas:HTMLCanvasElement){
   let snapshot: ImageData;
   let frames:ImageData[] = [];
   function drawing(){
-    snapshot = ctx.getImageData(0,0,canvas.width,canvas.height);       
+    snapshot = ctx.getImageData(0,0,canvas.width,canvas.height);    
+    ctx.beginPath()   
   }
   function drawShape(e:MouseEvent){
       ctx.putImageData(snapshot,0,0)
