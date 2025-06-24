@@ -6,7 +6,6 @@ const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-
 const viewportTransform = {
   x:0,
   y:0,
@@ -43,32 +42,32 @@ function updateZooming(e:WheelEvent){
   viewportTransform.scale = newScale;
 }
 
-let previousX = 0, previousY = 0;
+// let previousX = 0, previousY = 0;
 
-const updatePanning = (e:MouseEvent) => {
-  const localX = e.clientX;
-  const localY = e.clientY;
+// const updatePanning = (e:MouseEvent) => {
+//   const localX = e.clientX;
+//   const localY = e.clientY;
 
-  viewportTransform.x += localX - previousX; // current x position then adding mouse x position ex localx = 250 prevx = 230 new = x + 20
-  viewportTransform.y += localY - previousY; // same here
+//   viewportTransform.x += localX - previousX; // current x position then adding mouse x position ex localx = 250 prevx = 230 new = x + 20
+//   viewportTransform.y += localY - previousY; // same here
 
-  previousX = localX; // updating previous values 
-  previousY = localY;
-}
-
-// const onMouseMove = (e:MouseEvent) => {
-//   updatePanning(e)
-//   render()
+//   previousX = localX; // updating previous values 
+//   previousY = localY;
 // }
 
-// canvas.addEventListener("mousedown", (e) => {
+//   const onMouseMove = (e:MouseEvent) => {
+//     updatePanning(e)
+//     render()
+//   }
+  
+//   canvas.addEventListener("mousedown", (e) => {
 //   previousX = e.clientX;
 //   previousY = e.clientY;
-
+  
 //   canvas.addEventListener("mousemove", onMouseMove);
 // })
 
-// canvas.addEventListener("mouseup", (e) => {
+// canvas.addEventListener("mouseup", () => {
 //   canvas.removeEventListener("mousemove", onMouseMove);
 // })
 
@@ -88,9 +87,10 @@ function HandlingTools(canvas:HTMLCanvasElement){
   let starty =0;
   let snapshot: ImageData;
   let frames:ImageData[] = [];
+  
   function drawing(){
-    snapshot = ctx.getImageData(0,0,canvas.width,canvas.height);    
-    ctx.beginPath()   
+    snapshot = ctx.getImageData(0,0,canvas.width,canvas.height);
+    ctx.beginPath()
   }
   function drawShape(e:MouseEvent){
       ctx.putImageData(snapshot,0,0)

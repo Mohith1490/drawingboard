@@ -3,7 +3,9 @@ import rough from "roughjs";
 export default class Shapes {
     rc: any;
     ctx:CanvasRenderingContext2D;
+    canvas:HTMLCanvasElement
     constructor(canvas:HTMLCanvasElement) {
+        this.canvas = canvas
         this.rc = rough.canvas(canvas);
         this.ctx = canvas.getContext("2d")!
     }
@@ -28,6 +30,9 @@ export default class Shapes {
             case "eraser":
                 this.Eraser(event);
                 break;
+            case "clear":
+                this.clear();
+                break;
             default:
                 this.drawPencil(event);
                 break;
@@ -38,7 +43,6 @@ export default class Shapes {
     drawRect(event:MouseEvent,startX:number,startY:number) { // rectangle shape logic 
        const toX = event.clientX;
        const toY = event.clientY;
-
        return this.rc.rectangle(startX,startY,toX-startX,toY-startY)
     }
 
@@ -98,5 +102,12 @@ export default class Shapes {
        const distance = Math.sqrt((toX-startX)**2 + (toY-startY)**2)
        this.ctx.font = "100px"
        this.ctx.fillText("hello",startX,startY,110);
+    }
+
+    clear(){
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+        this.ctx.fillStyle = "white";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillRect(0,0,1,1);
     }
 }
